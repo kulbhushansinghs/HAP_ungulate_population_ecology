@@ -1,4 +1,4 @@
-# Git demo for Munib, Devika and Jenis
+# Git demo for Munib, Devika and Jenis afternoon session
 # This is a Shiny web application. You can run the application by clicking
 # the 'Run App' button above.
 #
