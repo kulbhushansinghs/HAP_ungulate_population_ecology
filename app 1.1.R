@@ -33,7 +33,7 @@ dos.bay<-function(dos, no.boot, max.pop){
 #dat1<-dat[1:30,]
 #x<-dos.bay(cbind(dat1$Group.size, dat1$Obs1, dat1$Obs2), 100, 2000)
 #hist(x[6:1000])
-setwd("/home/kullu/Desktop/Link to Kullu_desktop/Long-term ungulate monitoring Spiti")
+setwd("/Users/Kullu/Dropbox (Snow Leopard Trust)/Kullu_desktop/Git/HAP_ungulate_population_ecology")
 dat<-read.csv("Master DOS Data.csv")
 head(dat)
 
