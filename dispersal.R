@@ -5,7 +5,7 @@ setwd("C:/Users/Nipun/Desktop")
 d<-0.25 #dispersal rate
 n<-4 #vertex whose connections are to be deleted
 
-#creating graph
+#creating graphs
 gat<-read.csv("adjacency matrix.csv",header=TRUE,row.names=1,check.names=FALSE)
 A<-as.matrix(gat)
 g=graph.adjacency(A,mode="undirected",weighted=NULL); #g
