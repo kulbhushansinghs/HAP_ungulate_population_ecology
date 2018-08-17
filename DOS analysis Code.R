@@ -1,6 +1,12 @@
 ##Master DOS Data is a csv containing DOS data from all sites(India, Kyrgyzstan, Mongolia) and all species (Ibex, Blue Sheep, Argali, Urial & Nilgiri Tahr)
 DOS <- read.csv("Master DOS Data_Munib.csv")
 
+#testing
+#testing
+#testing
+#testing
+#testing
+
 library(BBRecapture)
 library(Hmisc)
 dos.bay<-function(dos, no.boot, max.pop){
