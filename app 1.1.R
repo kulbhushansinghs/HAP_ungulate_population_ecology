@@ -9,24 +9,29 @@
 library(shiny)
 library(BBRecapture)
 library(Hmisc)
+library(rdrop2)
+
+drop_auth()  ## login to dropbox
 #########
 # Listing custom functions
 ## Double observer survey analysis
 dos.bay<-function(dos, no.boot, max.pop){
-  model1 <- BBRecap(dos[, 2:3], 
+  model1 <- BBRecap(dos[which(dos[,1] != 0), 2:3], 
                     mod=c("Mt"), prior.N = c("Uniform"), 
                     output = c("complete.ML"), neval = max.pop)
-  N.estimate<-model1$N.hat.mean * mean(dos[,1]) 
+  N.estimate<-model1$N.hat.mean * mean(dos[which(dos[,1] != 0),1]) 
   est.arr<-rep(NA, no.boot)
+  det1 <- model1$pH.post.mean[1]
+  det2 <- model1$pH.post.mean[2]
 
     for(i in 1:no.boot){
-    est.arr[i] <- mean(sample(dos[,1], length(dos[,1]), replace = T)) *
+    est.arr[i] <- mean(sample(dos[which(dos[,1] != 0),1], length(dos[which(dos[,1] != 0),1]), replace = T)) *
       sample(model1$N.range, size = 1, prob = model1$posterior.N)
   }
   LCI<- quantile(est.arr, 0.025)
   UCI<- quantile(est.arr, 0.975)
   #hist.plot<-hist(est.arr, xlab = "Population esimate", main = "Posterior distribution of estimated population")
-  out.put<-c(N.estimate, model1$N.hat.mean, mean(dos[,1]), LCI, UCI, est.arr)
+  out.put<-c(N.estimate, model1$N.hat.mean, mean(dos[which(dos[,1] != 0),1]), LCI, UCI, det1, det2, est.arr)
   return(out.put)
 }
 
@@ -34,8 +39,9 @@ dos.bay<-function(dos, no.boot, max.pop){
 #x<-dos.bay(cbind(dat1$Group.size, dat1$Obs1, dat1$Obs2), 100, 2000)
 #hist(x[6:1000])
 setwd("/Users/Kullu/Dropbox (Snow Leopard Trust)/Kullu_desktop/Git/HAP_ungulate_population_ecology")
-dat<-read.csv("Master DOS Data.csv")
-head(dat)
+#dat<-read.csv("Master DOS Data.csv")
+dat<-drop_read_csv('/kullu_desktop/git/HAP_ungulate_population_ecology/Master DOS Data Updated.csv')
+#head(dat)
 
 
 # Define UI for application that draws a histogram
@@ -163,7 +169,10 @@ server <- function(input, output) {
                              paste("and",
                                    paste(round(result.dos()[5]),
                                         paste("\n \n Estimated number of groups were",
-                                             paste(result.dos()[2]))))))))
+                                             paste(result.dos()[2],
+                                                   paste("\n Detection probabilities were:",
+                                                         paste(round(result.dos()[6],2),
+                                                               paste(round(result.dos()[7],2))))))))))))
    })
 
 }
